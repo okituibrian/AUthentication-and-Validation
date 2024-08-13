@@ -145,7 +145,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                             mbinding.passwordTl.isErrorEnabled = false
                         }
                     }else{
-                        validatePassword()
+                        if (validatePassword() && mbinding.cPasswordEt.text!!.isNotEmpty() && validateConfirmPassword() &&
+                            validatePasswordAndConfirmPassword()){
+                            if (mbinding.cPasswordTl.isErrorEnabled){
+                                mbinding.cPasswordTl.isErrorEnabled = false
+                            }
+                           // mbinding.cPasswordTl.startIconDrawable =
+                        }
                     }
 
                 }
