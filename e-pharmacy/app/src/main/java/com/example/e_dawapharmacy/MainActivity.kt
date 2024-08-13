@@ -157,7 +157,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                     }else{
                         validateConfirmPassword()
                     }
-
                 }
             }
         }
