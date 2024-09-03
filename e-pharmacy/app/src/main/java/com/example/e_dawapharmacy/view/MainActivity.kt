@@ -1,4 +1,4 @@
-package com.example.e_dawapharmacy
+package com.example.e_dawapharmacy.view
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.e_dawapharmacy.R
 import com.example.e_dawapharmacy.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
@@ -135,7 +136,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                             mbinding.emailTl.isErrorEnabled = false
                         }
                     } else {
-                        validateEmail()
+                        if ( validateEmail()) {
+
+                        }
 
                     }
                 }
