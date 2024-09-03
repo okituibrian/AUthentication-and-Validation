@@ -1,5 +1,7 @@
 package com.example.e_dawapharmacy
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.KeyEvent
@@ -108,69 +110,78 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
     }
 
 
-
-
-
     override fun onClick(view: View?) {
 
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
 
-        if(view != null){
-            when(view.id){
+        if (view != null) {
+            when (view.id) {
                 R.id.fullNameEt -> {
-                    if(hasFocus){
-                        if (mbinding.fullNameTl.isErrorEnabled){
+                    if (hasFocus) {
+                        if (mbinding.fullNameTl.isErrorEnabled) {
                             mbinding.fullNameTl.isErrorEnabled = false
                         }
-                }else{
-                    validateFullName()
+                    } else {
+                        validateFullName()
 
                     }
                 }
+
                 R.id.emailEt -> {
-                    if(hasFocus){
-                        if (mbinding.emailTl.isErrorEnabled){
+                    if (hasFocus) {
+                        if (mbinding.emailTl.isErrorEnabled) {
                             mbinding.emailTl.isErrorEnabled = false
                         }
-                }else{
-                    validateEmail()
+                    } else {
+                        validateEmail()
 
                     }
                 }
+
                 R.id.passwordEt -> {
-                    if(hasFocus){
-                        if (mbinding.passwordTl.isErrorEnabled){
+                    if (hasFocus) {
+                        if (mbinding.passwordTl.isErrorEnabled) {
                             mbinding.passwordTl.isErrorEnabled = false
                         }
-                    }else{
+                    } else {
                         if (validatePassword() && mbinding.cPasswordEt.text!!.isNotEmpty() && validateConfirmPassword() &&
-                            validatePasswordAndConfirmPassword()){
-                            if (mbinding.cPasswordTl.isErrorEnabled){
+                            validatePasswordAndConfirmPassword()
+                        ) {
+                            if (mbinding.cPasswordTl.isErrorEnabled) {
                                 mbinding.cPasswordTl.isErrorEnabled = false
                             }
-                           // mbinding.cPasswordTl.startIconDrawable =
+                            mbinding.cPasswordTl.apply {
+                                setStartIconDrawable(R.drawable.check_circle_24)
+                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+                            }
                         }
                     }
-
                 }
+
                 R.id.cPasswordEt -> {
-                    if (hasFocus){
-                        if (mbinding.cPasswordTl.isErrorEnabled){
+                    if (hasFocus) {
+                        if (mbinding.cPasswordTl.isErrorEnabled) {
                             mbinding.cPasswordTl.isErrorEnabled = false
                         }
-                    }else{
-                        validateConfirmPassword()
+                    } else {
+                        if (validateConfirmPassword() && validatePassword() && validatePasswordAndConfirmPassword()) {
+                            if (mbinding.cPasswordTl.isErrorEnabled) {
+                                mbinding.cPasswordTl.isErrorEnabled = false
+                            }
+                            mbinding.cPasswordTl.apply {
+                                setStartIconDrawable(R.drawable.check_circle_24)
+                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    override fun onKey(view: View?, event: Int, keyEvent: KeyEvent?): Boolean {
-       return false
+    override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+        return false
     }
-
 }
-
