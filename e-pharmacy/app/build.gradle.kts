@@ -46,11 +46,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    //Retrofit Dependency
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.androidx.annotation)
+    implementation(libs.support.v4)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-//Retrofit Dependency
-   /* implementation(libs.retrofit)
-    implementation(libs.converter.gson)*/
+
 
 }
