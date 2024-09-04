@@ -8,11 +8,18 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.e_dawapharmacy.R
 import com.example.e_dawapharmacy.databinding.ActivityMainBinding
+import com.example.e_dawapharmacy.repository.AuthRepository
+import com.example.e_dawapharmacy.utils.APIService
+import com.example.e_dawapharmacy.view_model.RegisterActivityViewModel
+import com.example.e_dawapharmacy.view_model.RegisterActivityViewModelFactory
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
+    View.OnKeyListener {
     private lateinit var mbinding: ActivityMainBinding
+    private lateinit var mViewModel: RegisterActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,34 +29,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         mbinding.emailEt.onFocusChangeListener = this
         mbinding.passwordEt.onFocusChangeListener = this
         mbinding.cPasswordEt.onFocusChangeListener = this
+        mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()),
+            application)).get(RegisterActivityViewModel::class.java)
+        setupObservers()
 
     }
+private fun setupObservers(){
+    mViewModel.getIsLoading().observe(this){
 
-        private fun validateFullName(): Boolean {
-            var errorMessage: String? = null
-           val value: String = mbinding.fullNameEt.text.toString()
-            if(value.isEmpty()){
-                errorMessage = "Full Name is required"
-            }
-            if(errorMessage != null){
-                mbinding.fullNameTl.apply {
-                    isErrorEnabled = true
-                    error = errorMessage
-                }
-            }
-            return errorMessage == null
+    }
+    mViewModel.getError().observe(this){
+
+    }
+    mViewModel.getUser().observe(this){
+
+    }
+}
+    private fun validateFullName(): Boolean {
+        var errorMessage: String? = null
+        val value: String = mbinding.fullNameEt.text.toString()
+        if (value.isEmpty()) {
+            errorMessage = "Full Name is required"
         }
+        if (errorMessage != null) {
+            mbinding.fullNameTl.apply {
+                isErrorEnabled = true
+                error = errorMessage
+            }
+        }
+        return errorMessage == null
+    }
 
-    private fun validateEmail(): Boolean{
+    private fun validateEmail(): Boolean {
         var errorMessage: String? = null
         val value: String = mbinding.emailEt.text.toString()
-        if(value.isEmpty()){
+        if (value.isEmpty()) {
             errorMessage = " Email is required"
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(value).matches()){
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
             errorMessage = "Email address is invalid"
         }
-        if(errorMessage != null){
+        if (errorMessage != null) {
             mbinding.emailTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -58,16 +77,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         return errorMessage == null
     }
 
-    private fun validatePassword(): Boolean{
+    private fun validatePassword(): Boolean {
         var errorMessage: String? = null
         val value: String = mbinding.passwordEt.text.toString()
-        if(value.isEmpty()){
+        if (value.isEmpty()) {
             errorMessage = "password is required"
-        }
-        else if(value.length < 4 ){
+        } else if (value.length < 4) {
             errorMessage = "password must be 4 characters long"
         }
-        if(errorMessage != null){
+        if (errorMessage != null) {
             mbinding.passwordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -76,16 +94,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         return errorMessage == null
     }
 
-    private fun validateConfirmPassword(): Boolean{
+    private fun validateConfirmPassword(): Boolean {
         var errorMessage: String? = null
         val value: String = mbinding.cPasswordEt.text.toString()
-        if (value.isEmpty()){
+        if (value.isEmpty()) {
             errorMessage = "Confirm Password is Required"
-        }
-        else if(value.length < 4){
+        } else if (value.length < 4) {
             errorMessage = "Confirm password must be 4 characters long"
         }
-        if(errorMessage != null){
+        if (errorMessage != null) {
             mbinding.cPasswordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -94,14 +111,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         return errorMessage == null
     }
 
-    private fun validatePasswordAndConfirmPassword(): Boolean{
+    private fun validatePasswordAndConfirmPassword(): Boolean {
         var errorMessage: String? = null
         val password = mbinding.passwordEt.text.toString()
         val confirmPassword = mbinding.cPasswordEt.text.toString()
-        if(password != confirmPassword){
+        if (password != confirmPassword) {
             errorMessage = "Password and Confirm password do not match"
         }
-        if(errorMessage != null){
+        if (errorMessage != null) {
             mbinding.cPasswordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -136,7 +153,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                             mbinding.emailTl.isErrorEnabled = false
                         }
                     } else {
-                        if ( validateEmail()) {
+                        if (validateEmail()) {
 
                         }
 
