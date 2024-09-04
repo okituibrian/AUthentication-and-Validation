@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,60 +10,85 @@
     android:orientation="horizontal"
     tools:context=".view.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#88000000"
+        android:id="@+id/progressBar"
+        >
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:elevation="100dp"
+        android:indeterminate="true"
+
+        >
+
+    </ProgressBar>
+    </RelativeLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="match_parent"
         android:layout_margin="12dp"
         android:layout_marginTop="40dp"
+        app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:strokeColor="@color/grey"
-        app:strokeWidth="0.5dp"
-        app:cardCornerRadius="0dp"
-        >
+        app:strokeWidth="0.5dp">
 
         <LinearLayout
-            android:layout_margin="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_margin="12dp"
             android:layout_marginTop="80dp"
-            >
+            android:orientation="vertical">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fullNameTl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                >
+                android:layout_marginTop="12dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fullNameEt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     android:hint="@string/full_name"
                     android:inputType="text"
-                    >
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="12dp">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
                 android:id="@+id/emailTl"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                >
+                android:layout_marginTop="12dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailEt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
-                    >
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="12dp">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -72,22 +97,21 @@
                 android:id="@+id/passwordTl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
+                android:layout_marginTop="12dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="8"
-                android:layout_marginTop="12dp"
-                >
+                app:passwordToggleEnabled="true">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:maxLength="8"
-                    >
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="12dp">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,34 +120,35 @@
                 android:id="@+id/cPasswordTl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
                 app:counterEnabled="true"
                 app:counterMaxLength="8"
+                app:passwordToggleEnabled="true"
 
                 >
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cPasswordEt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="12dp"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
                     android:maxLength="8"
-                    >
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="12dp">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/register"
-                android:layout_marginTop="12dp"
-                style="@style/Widget.MaterialComponents.Button"
 
                 >
 
@@ -132,4 +157,4 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android">
