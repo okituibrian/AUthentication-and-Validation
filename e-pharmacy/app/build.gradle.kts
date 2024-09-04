@@ -50,8 +50,12 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    //coroutines
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+    implementation(libs.lifecycle.viewmodel.ktx)
+
     implementation(libs.androidx.annotation)
-    implementation(libs.support.v4)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
