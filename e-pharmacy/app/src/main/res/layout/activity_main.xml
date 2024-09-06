@@ -29,6 +29,7 @@
         android:layout_centerInParent="true"
         android:elevation="100dp"
         android:indeterminate="true"
+        
         >
 
     </ProgressBar>
@@ -44,7 +45,7 @@
         android:layout_marginTop="40dp"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
-        app:strokeColor="@color/grey"
+        app:strokeColor="@color/black"
         app:strokeWidth="0.5dp">
 
         <LinearLayout
