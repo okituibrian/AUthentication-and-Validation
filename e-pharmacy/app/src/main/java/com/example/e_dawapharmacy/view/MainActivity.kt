@@ -7,9 +7,12 @@ import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.e_dawapharmacy.R
+import com.example.e_dawapharmacy.data.ValidateEmailBody
 import com.example.e_dawapharmacy.databinding.ActivityMainBinding
 import com.example.e_dawapharmacy.repository.AuthRepository
 import com.example.e_dawapharmacy.utils.APIService
@@ -36,10 +39,45 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
     }
 private fun setupObservers(){
     mViewModel.getIsLoading().observe(this){
-
+       mbinding.progressBar.isVisible = it
     }
     mViewModel.getError().observe(this){
-
+        val formErrorKeys = arrayOf("fullName. email, password")
+        val message = StringBuilder()
+        it.map { entry ->
+            if (formErrorKeys.contains(entry.key)){
+                when(entry.key){
+                    "fullName"->{
+                        mbinding.fullNameTl.apply {
+                            isErrorEnabled = true
+                            error = entry.value
+                        }
+                    }
+                    "email" ->{
+                        mbinding.emailTl.apply {
+                            isErrorEnabled = true
+                            error = entry.value
+                        }
+                    }
+                    "password"->{
+                        mbinding.passwordTl.apply {
+                            isErrorEnabled = true
+                            error = entry.key
+                        }
+                    }
+                }
+            }else{
+                message.append(entry.value).append("\n")
+            }
+            if (message.isNotEmpty()){
+                AlertDialog.Builder(this)
+                    .setIcon(R.drawable.info_24)
+                    .setTitle("INFORMATION")
+                    .setMessage(message)
+                    .setPositiveButton("OK"){dialogue, _->dialogue !!.dismiss()}
+                    .show()
+            }
+        }
     }
     mViewModel.getUser().observe(this){
 
@@ -154,7 +192,7 @@ private fun setupObservers(){
                         }
                     } else {
                         if (validateEmail()) {
-
+                            mViewModel.validateEmailAddress(ValidateEmailBody(mbinding.emailEt.text.toString()))
                         }
 
                     }
