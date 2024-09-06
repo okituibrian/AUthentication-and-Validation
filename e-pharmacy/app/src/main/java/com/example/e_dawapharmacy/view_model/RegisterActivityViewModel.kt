@@ -35,7 +35,7 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
 
                     is RequestStatus.Success -> {
                         isLoading.value = false
-                        isUniqueEmail.value = it.data.unique
+                        isUniqueEmail.value = it.data.isUnique
                     }
 
                     is RequestStatus.Error -> {
