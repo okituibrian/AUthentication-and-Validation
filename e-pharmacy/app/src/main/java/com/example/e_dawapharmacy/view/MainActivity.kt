@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         mbinding.cPasswordEt.onFocusChangeListener = this
         mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()),
             application)).get(RegisterActivityViewModel::class.java)
-        setupObservers()
+            setupObservers()
 
     }
 private fun setupObservers(){
