@@ -32,14 +32,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         mbinding.emailEt.onFocusChangeListener = this
         mbinding.passwordEt.onFocusChangeListener = this
         mbinding.cPasswordEt.onFocusChangeListener = this
-        mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()),
-            application)).get(RegisterActivityViewModel::class.java)
+        mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()), application)).get(RegisterActivityViewModel::class.java)
             setupObservers()
 
     }
 private fun setupObservers(){
     mViewModel.getIsLoading().observe(this){
        mbinding.progressBar.isVisible = it
+    }
+
+    mViewModel.getIsUniqueEmail().observe(this){
+        if(it) {
+            mbinding.emailTl.apply {
+                if (isErrorEnabled) isErrorEnabled = false
+                setStartIconDrawable(R.drawable.check_circle_24)
+                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+
+            }
+        }else {
+            mbinding.emailTl.apply {
+                if (startIconDrawable != null ) startIconDrawable = null
+                isErrorEnabled = true
+                error = "Email is already taken"
+            }
+        }
     }
     mViewModel.getError().observe(this){
         val formErrorKeys = arrayOf("fullName. email, password")
