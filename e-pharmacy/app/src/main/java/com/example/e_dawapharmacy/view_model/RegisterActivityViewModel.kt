@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.e_dawapharmacy.data.RegisterBody
 import com.example.e_dawapharmacy.data.User
 import com.example.e_dawapharmacy.data.ValidateEmailBody
 import com.example.e_dawapharmacy.repository.AuthRepository
@@ -46,5 +47,27 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
             }
         }
     }*/
+
+    fun registerUser(body: RegisterBody){
+        viewModelScope.launch {
+            authRepository.registerUser(body).collect {
+                when (it) {
+                    is RequestStatus.Waiting -> {
+                        isLoading.value = true
+                    }
+
+                    is RequestStatus.Success -> {
+                        isLoading.value = false
+                        user.value = it.data.user
+                    }
+
+                    is RequestStatus.Error -> {
+                        isLoading.value = false
+                        errorMessage.value = it.message
+                    }
+                }
+            }
+        }
+    }
 
 }
