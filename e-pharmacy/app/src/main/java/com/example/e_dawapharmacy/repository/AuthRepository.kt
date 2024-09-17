@@ -1,5 +1,6 @@
 package com.example.e_dawapharmacy.repository
 
+import com.example.e_dawapharmacy.data.RegisterBody
 import com.example.e_dawapharmacy.data.ValidateEmailBody
 import com.example.e_dawapharmacy.utils.APIConsumer
 import com.example.e_dawapharmacy.utils.RequestStatus
@@ -22,4 +23,20 @@ class AuthRepository(private val consumer: APIConsumer) {
             )
         }
     }*/
+
+    fun registerUser(body: RegisterBody)= flow {
+        emit(RequestStatus.Waiting)
+        val response = consumer.registerUser(body)
+        if (response.isSuccessful) {
+            emit(RequestStatus.Success(response.body()!!))
+        } else {
+            emit(
+                RequestStatus.Error(
+                    SimplifiedMessage.get(
+                        response.errorBody()!!.byteStream().reader().readText()
+                    )
+                )
+            )
+        }
+    }
 }
