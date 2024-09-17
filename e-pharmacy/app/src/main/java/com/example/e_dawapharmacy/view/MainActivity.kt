@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         mbinding.emailEt.onFocusChangeListener = this
         mbinding.passwordEt.onFocusChangeListener = this
         mbinding.cPasswordEt.onFocusChangeListener = this
+        mbinding.cPasswordEt.setOnKeyListener(this)
         mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()),
             application)).get(RegisterActivityViewModel::class.java)
             setupObservers()
@@ -134,7 +135,7 @@ private fun setupObservers(){
         return errorMessage == null
     }
 
-    private fun validatePassword(): Boolean {
+    private fun validatePassword(shouldUpdateView: Boolean = true): Boolean {
         var errorMessage: String? = null
         val value: String = mbinding.passwordEt.text.toString()
         if (value.isEmpty()) {
@@ -142,7 +143,7 @@ private fun setupObservers(){
         } else if (value.length < 4) {
             errorMessage = "password must be 4 characters long"
         }
-        if (errorMessage != null) {
+        if (errorMessage != null && shouldUpdateView) {
             mbinding.passwordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -151,7 +152,7 @@ private fun setupObservers(){
         return errorMessage == null
     }
 
-    private fun validateConfirmPassword(): Boolean {
+    private fun validateConfirmPassword(shouldUpdateView: Boolean = true): Boolean {
         var errorMessage: String? = null
         val value: String = mbinding.cPasswordEt.text.toString()
         if (value.isEmpty()) {
@@ -159,7 +160,7 @@ private fun setupObservers(){
         } else if (value.length < 4) {
             errorMessage = "Confirm password must be 4 characters long"
         }
-        if (errorMessage != null) {
+        if (errorMessage != null && shouldUpdateView) {
             mbinding.cPasswordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -168,14 +169,14 @@ private fun setupObservers(){
         return errorMessage == null
     }
 
-    private fun validatePasswordAndConfirmPassword(): Boolean {
+    private fun validatePasswordAndConfirmPassword(shouldUpdateView: Boolean = true): Boolean {
         var errorMessage: String? = null
         val password = mbinding.passwordEt.text.toString()
         val confirmPassword = mbinding.cPasswordEt.text.toString()
         if (password != confirmPassword) {
             errorMessage = "Password and Confirm password do not match"
         }
-        if (errorMessage != null) {
+        if (errorMessage != null && shouldUpdateView) {
             mbinding.cPasswordTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -259,6 +260,17 @@ private fun setupObservers(){
     }
 
     override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+        if(validatePassword(shouldUpdateView = false) && validateConfirmPassword(shouldUpdateView = false) && validatePasswordAndConfirmPassword(shouldUpdateView = false)){
+            mbinding.cPasswordTl.apply {
+                if(isErrorEnabled) isErrorEnabled = false
+                setStartIconDrawable(R.drawable.check_circle_24)
+                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+            }
+        }else {
+            if(mbinding.cPasswordTl.startIconDrawable != null)
+                mbinding.cPasswordTl.startIconDrawable = null
+        }
+
         return false
     }
 }
