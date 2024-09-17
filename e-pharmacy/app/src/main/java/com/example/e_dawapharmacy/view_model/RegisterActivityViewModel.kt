@@ -24,7 +24,7 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
     fun getError(): LiveData<HashMap<String, String>> = errorMessage
     fun getIsUniqueEmail(): LiveData<Boolean> = isUniqueEmail
     fun getUser(): LiveData<User> = user
-    fun validateEmailAddress(body: ValidateEmailBody) {
+    /*fun validateEmailAddress(body: ValidateEmailBody) {
 
         viewModelScope.launch {
             authRepository.validateEmailAddress(body).collect {
@@ -45,6 +45,6 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
                 }
             }
         }
-    }
+    }*/
 
 }
