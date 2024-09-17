@@ -1,5 +1,6 @@
 package com.example.e_dawapharmacy.view
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.e_dawapharmacy.R
+import com.example.e_dawapharmacy.data.RegisterBody
 import com.example.e_dawapharmacy.data.ValidateEmailBody
 import com.example.e_dawapharmacy.databinding.ActivityMainBinding
 import com.example.e_dawapharmacy.repository.AuthRepository
@@ -104,7 +106,9 @@ private fun setupObservers(){
         }
     }
     mViewModel.getUser().observe(this){
-
+        if (it !=null) {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
     }
 }
     private fun validateFullName(): Boolean {
@@ -297,6 +301,7 @@ private fun setupObservers(){
     private fun onSubmit(){
         if (validate()){
             //make api request to register user
+            mViewModel.registerUser(RegisterBody(mbinding.fullNameEt.text!!.toString(), mbinding.emailEt.text!!.toString(), mbinding.passwordEt.text!!.toString()))
         }
     }
 
