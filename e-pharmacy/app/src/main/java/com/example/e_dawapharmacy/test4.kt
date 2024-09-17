@@ -39,12 +39,4 @@ fun main() {
     println(getMinimumCost(arr2)) // Output: 36
 }
 
-/*
-fun getTotalMills(arr: IntArray){
-    val n = arr.size
-    for(i in 0 <= until< n-1){
-        var millA = 5
-        var millB = 8
-        val totalMiller = millA + millB
-    }
-}*/
+
