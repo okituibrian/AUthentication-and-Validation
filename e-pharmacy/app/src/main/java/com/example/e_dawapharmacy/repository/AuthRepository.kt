@@ -7,7 +7,7 @@ import com.example.e_dawapharmacy.utils.SimplifiedMessage
 import kotlinx.coroutines.flow.flow
 
 class AuthRepository(private val consumer: APIConsumer) {
-    fun validateEmailAddress(body: ValidateEmailBody) = flow {
+   /* fun validateEmailAddress(body: ValidateEmailBody) = flow {
         emit(RequestStatus.Waiting)
         val response = consumer.validateEmailAddress(body)
         if (response.isSuccessful) {
@@ -21,5 +21,5 @@ class AuthRepository(private val consumer: APIConsumer) {
                 )
             )
         }
-    }
+    }*/
 }
