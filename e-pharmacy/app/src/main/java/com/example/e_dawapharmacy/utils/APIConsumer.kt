@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface APIConsumer {
 
-    @POST()
+   /* @POST()
     fun validateEmailAddress(@Body body: ValidateEmailBody): Response<UniqueEmailValidationResponse>
-
+*/
 }
