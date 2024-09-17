@@ -122,6 +122,7 @@
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
                 app:counterMaxLength="8"
+                android:layout_marginTop="8dp"
                 app:passwordToggleEnabled="true"
 
                 >
