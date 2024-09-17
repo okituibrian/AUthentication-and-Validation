@@ -3,6 +3,9 @@ package com.example.e_dawapharmacy.view
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -20,7 +23,7 @@ import com.example.e_dawapharmacy.view_model.RegisterActivityViewModel
 import com.example.e_dawapharmacy.view_model.RegisterActivityViewModelFactory
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
-    View.OnKeyListener {
+    View.OnKeyListener, TextWatcher {
     private lateinit var mbinding: ActivityMainBinding
     private lateinit var mViewModel: RegisterActivityViewModel
 
@@ -32,7 +35,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         mbinding.emailEt.onFocusChangeListener = this
         mbinding.passwordEt.onFocusChangeListener = this
         mbinding.cPasswordEt.onFocusChangeListener = this
-        mbinding.cPasswordEt.setOnKeyListener(this)
+        mbinding.cPasswordEt.addTextChangedListener(this)
+        mbinding.registerBtn.setOnClickListener(this)
         mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()),
             application)).get(RegisterActivityViewModel::class.java)
             setupObservers()
@@ -44,7 +48,7 @@ private fun setupObservers(){
     }
 
     mViewModel.getIsUniqueEmail().observe(this){
-        if (validateEmail()){
+        if (validateEmail(shouldUpdateView = false)){
             if(it) {
                 mbinding.emailTl.apply {
                     if (isErrorEnabled) isErrorEnabled = false
@@ -126,7 +130,7 @@ private fun setupObservers(){
         } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
             errorMessage = "Email address is invalid"
         }
-        if (errorMessage != null) {
+        if (errorMessage != null && shouldUpdateView) {
             mbinding.emailTl.apply {
                 isErrorEnabled = true
                 error = errorMessage
@@ -188,6 +192,9 @@ private fun setupObservers(){
 
     override fun onClick(view: View?) {
 
+        if (view!=null && view.id == R.id.registerBtn){
+            onSubmit()
+        }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
@@ -201,7 +208,6 @@ private fun setupObservers(){
                         }
                     } else {
                         validateFullName()
-
                     }
                 }
 
@@ -210,12 +216,12 @@ private fun setupObservers(){
                         if (mbinding.emailTl.isErrorEnabled) {
                             mbinding.emailTl.isErrorEnabled = false
                         }
-                    } else {
+                    } /*else {
                         if (validateEmail()) {
                             mViewModel.validateEmailAddress(ValidateEmailBody(mbinding.emailEt.text.toString()))
                         }
 
-                    }
+                    }*/
                 }
 
                 R.id.passwordEt -> {
@@ -259,7 +265,18 @@ private fun setupObservers(){
         }
     }
 
-    override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+    override fun onKey(p0: View?, keyCode: Int, keyEvent:KeyEvent?): Boolean {
+        if(KeyEvent.KEYCODE_ENTER == keyCode && keyEvent!!.action == KeyEvent.ACTION_UP ){
+            //do registration
+            onSubmit()
+        }
+        return false
+    }
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+    }
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         if(validatePassword(shouldUpdateView = false) && validateConfirmPassword(shouldUpdateView = false) && validatePasswordAndConfirmPassword(shouldUpdateView = false)){
             mbinding.cPasswordTl.apply {
                 if(isErrorEnabled) isErrorEnabled = false
@@ -271,6 +288,27 @@ private fun setupObservers(){
                 mbinding.cPasswordTl.startIconDrawable = null
         }
 
-        return false
+    }
+
+    override fun afterTextChanged(p0: Editable?) {
+
+    }
+
+    private fun onSubmit(){
+        if (validate()){
+            //make api request to register user
+        }
+    }
+
+    private fun validate():Boolean{
+        var isValid = true
+
+        if (!validateFullName()) isValid = false
+        if(!validateEmail()) isValid = false
+        if(!validatePassword()) isValid = false
+        if(!validateConfirmPassword()) isValid = false
+        if (isValid && !validatePasswordAndConfirmPassword()) isValid = false
+
+        return isValid
     }
 }
