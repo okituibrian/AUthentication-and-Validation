@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object APIService {
-    private const val BASE_URL = "base_url"
+    private const val BASE_URL = "https://96e6-102-210-244-174.ngrok-free.app"
 
     fun getService(): APIConsumer {
 
